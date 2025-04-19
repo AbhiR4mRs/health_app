@@ -1,0 +1,11 @@
+# project/urls.py
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('authenticate.urls')),
+    path('hq/', include('hq.urls')),
+    path('center/', include('center.urls')),
+    path('subcenter/', include('sub_center.urls')),
+]

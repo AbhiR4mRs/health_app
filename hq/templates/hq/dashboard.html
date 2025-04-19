@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}HQ{% endblock %}
+{% block extra_head %}
+{% endblock  %}
+{% block nav-item %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'hq:dashboard' %}">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'hq:reports' %}">Reports</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'hq:add_center' %}">Add Center</a>
+    </li>
+{% endblock  %}
+{% block content %}{% endblock  %}
+{% block extra_js %}{% endblock  %}
