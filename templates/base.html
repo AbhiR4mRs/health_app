@@ -21,9 +21,9 @@
                     {% block nav-item %}
                     
                     {% endblock nav-item %}
-                        <li class="nav-item">
+                        {% comment %} <li class="nav-item">
                             <a class="nav-link" href="#">{{ user.username }}</a>
-                        </li>
+                        </li> {% endcomment %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'authenticate:logout' %}">Logout</a>
                         </li>

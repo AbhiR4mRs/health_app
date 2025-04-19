@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Center{% endblock %}
 {% block extra_head %}{% endblock  %}
-{% block nav-item %}{% endblock  %}
+{% block nav-item %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'center:dashboard' %}">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'center:report' %}">Reports</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'center:add_sub' %}">Add Sub-Center</a>
+    </li>
+{% endblock  %}
 {% block content %}{% endblock  %}
 {% block extra_js %}{% endblock  %} 

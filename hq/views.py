@@ -10,3 +10,6 @@ def reports(request):
 
 def add_center(request):
     return render(request, 'hq/add_center.html')
+
+def upload(request):
+    return render(request, 'hq/upload.html')
