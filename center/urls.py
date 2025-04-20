@@ -7,5 +7,5 @@ app_name = 'center'
 urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('reports/', reports, name='report'),
-    path('add_center/', add_sub_center, name='add_sub'),
+    path('add_subcenter/', add_sub_center, name='add_sub'),
 ]

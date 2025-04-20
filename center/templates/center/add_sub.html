@@ -4,11 +4,12 @@
     <!-- Keep nav links consistent -->
 {% endblock %}
 {% block content %}
-    <!-- Add additional content for Add Center page here -->
-    <div class="mt-4">
-        <h3>Add a New Sub Center</h3>
-        <!-- Form or other content -->
-    </div>
+<h2>Create Subcenter</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
 {% endblock %}
 {% block extra_js %}
 {% endblock %}
