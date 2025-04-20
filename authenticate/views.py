@@ -4,10 +4,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from .forms import LoginForm
+from hq.models import PublicContent
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    contents = PublicContent.objects.order_by('-created_at')  # latest first
+    return render(request, 'home.html', {'contents': contents})
 
 def login_view(request):
     if request.method == 'POST':
@@ -38,3 +40,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('authenticate:login') 
+
+def no_group_view(request):
+    return render(request, 'no_group.html')

@@ -1,0 +1,14 @@
+{% block title %}{% endblock %}
+{% block nav-item %}
+    {% include 'hq/dashboard.html' %}
+    <!-- Keep nav links consistent -->
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Access Denied</h1>
+        <p>You do not have permission to view this page.</p>
+        <a href="{% url 'authenticate:login' %}">Go to Login</a>
+    </div>
+{% endblock %}
+{% block extra_js %}
+{% endblock %}

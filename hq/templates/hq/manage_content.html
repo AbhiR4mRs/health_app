@@ -1,0 +1,31 @@
+{% block title %}{% endblock %}
+{% block nav-item %}
+    {% include 'hq/dashboard.html' %}
+    <!-- Keep nav links consistent -->
+{% endblock %}
+{% block content %}
+<h2>Manage Public Content</h2>
+{% for content in contents %}
+    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+        <h3>{{ content.title }}</h3>
+        <p>{{ content.description }}</p>
+        {% if content.image %}
+            <img src="{{ content.image.url }}" width="200px" />
+        {% endif %}
+        {% if content.video %}
+            <video width="320" height="240" controls>
+                <source src="{{ content.video.url }}">
+                Your browser does not support the video tag.
+            </video>
+        {% endif %}
+        <p>
+            <a href="{% url 'hq:edit_content' content.pk %}">Edit</a> 
+            <a href="{% url 'hq:delete_content' content.pk %}">Delete</a>
+        </p>
+    </div>
+{% empty %}
+    <p>No content available.</p>
+{% endfor %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}

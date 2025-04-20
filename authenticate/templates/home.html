@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,30 @@
 
     <!-- Content Area -->
     <div class="container mt-4">
-        <!-- You can start adding your HQ-uploaded content here -->
+        <h1>Public Notices</h1>
+
+    {% for item in contents %}
+        <div style="margin-bottom: 30px;">
+            <h2>{{ item.title }}</h2>
+
+            {% if item.text %}
+                <p>{{ item.text }}</p>
+            {% endif %}
+
+            {% if item.image %}
+                <img src="{{ item.image.url }}" alt="Image" style="max-width: 100%; height: auto;">
+            {% endif %}
+
+            {% if item.video %}
+                <video controls style="max-width: 100%;">
+                    <source src="{{ item.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No public content available yet.</p>
+    {% endfor %}
     </div>
 
 </body>

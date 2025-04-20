@@ -1,0 +1,17 @@
+{% block title %}{% endblock %}
+{% block nav-item %}
+    {% include 'hq/dashboard.html' %}
+    <!-- Keep nav links consistent -->
+{% endblock %}
+{% block content %}
+<h2>Create Center/Subcenter</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+
+
