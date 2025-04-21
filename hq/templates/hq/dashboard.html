@@ -3,24 +3,7 @@
 {% block extra_head %}
 {% endblock  %}
 {% block nav-item %}
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'hq:dashboard' %}">Dashboard</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'hq:reports' %}">Reports</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'hq:add_center' %}">Add Center</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'hq:add_subcenter' %}">Add SubCenter</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'hq:upload' %}">Upload</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'hq:manage_content' %}">Manage Content</a>
-    </li>
+{% include "partials/hq_nav.html" %}
 {% endblock  %}
 {% block content %}
     <div class="container mt-4">
