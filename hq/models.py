@@ -20,9 +20,10 @@ class PublicContent(models.Model):
 
 
 class Center(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='hq_center')
     is_subcenter = models.BooleanField(default=False)
-
+    parent_center = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, limit_choices_to={'is_subcenter': False})
+    
     def __str__(self):
         return self.name

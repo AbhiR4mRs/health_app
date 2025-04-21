@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from hq.models import Center
-from hq.forms import CreateCenterForm
+from hq.forms import CreateSubcenterForm
 
 @login_required
 def dashboard(request):
@@ -17,7 +17,7 @@ def add_sub_center(request):
         return redirect('no_permission')
 
     if request.method == 'POST':
-        form = CreateCenterForm(request.POST)
+        form = CreateSubcenterForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -32,6 +32,6 @@ def add_sub_center(request):
             Center.objects.create(user=user, name=center_name, is_subcenter=is_subcenter)
             return redirect('center:dashboard')
     else:
-        form = CreateCenterForm()
+        form = CreateSubcenterForm()
 
     return render(request, 'center/add_sub.html', {'form': form})

@@ -1,5 +1,6 @@
 from django import forms
-from .models import PublicContent
+from .models import PublicContent, Center
+from django.contrib.auth.models import User
 
 class PublicContentForm(forms.ModelForm):
     class Meta:
@@ -12,8 +13,31 @@ class PublicContentForm(forms.ModelForm):
             'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
+
 class CreateCenterForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
     center_name = forms.CharField(max_length=100)
-    is_subcenter = forms.BooleanField(required=False, label='Is Subcenter?')
+    
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Username already exists.")
+        return username
+    
+class CreateSubcenterForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
+    subcenter_name = forms.CharField(max_length=100)
+    parent_center = forms.ModelChoiceField(
+        queryset=Center.objects.filter(is_subcenter=False),
+        label="Parent Center",
+        empty_label="Select a Center"
+    )
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Username already exists.")
+        return username
+
