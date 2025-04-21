@@ -1,5 +1,5 @@
 from django import forms
-from .models import PublicContent
+from .models import PublicContent, Center
 
 class PublicContentForm(forms.ModelForm):
     class Meta:
@@ -16,4 +16,13 @@ class CreateCenterForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
     center_name = forms.CharField(max_length=100)
-    is_subcenter = forms.BooleanField(required=False, label='Is Subcenter?')
+    
+class CreateSubcenterForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
+    subcenter_name = forms.CharField(max_length=100)
+    parent_center = forms.ModelChoiceField(
+        queryset=Center.objects.filter(is_subcenter=False),
+        label="Parent Center",
+        empty_label="Select a Center"
+    )

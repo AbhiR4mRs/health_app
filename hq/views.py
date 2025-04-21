@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PublicContentForm, CreateCenterForm
+from .forms import PublicContentForm, CreateCenterForm, CreateSubcenterForm
 from django.contrib.auth.models import User, Group
 from .models import PublicContent, Center
+import os
 
 @login_required
 def dashboard(request):
@@ -16,7 +17,7 @@ def reports(request):
 
 def add_center(request):
     if not request.user.groups.filter(name='headquarters').exists():
-        return redirect('no_permission')  # Optional: restrict access
+        return redirect('no_permission')
 
     if request.method == 'POST':
         form = CreateCenterForm(request.POST)
@@ -24,22 +25,52 @@ def add_center(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             center_name = form.cleaned_data['center_name']
-            is_subcenter = form.cleaned_data['is_subcenter']
 
             user = User.objects.create_user(username=username, password=password)
 
-            # Add to appropriate group
-            group_name = 'subcenters' if is_subcenter else 'centers'
-            group = Group.objects.get(name=group_name)
+            group = Group.objects.get(name='centers')
             user.groups.add(group)
 
-            # Create Center/Subcenter
-            Center.objects.create(user=user, name=center_name, is_subcenter=is_subcenter)
+            Center.objects.create(
+                user=user,
+                name=center_name,
+                is_subcenter=False,
+                parent_center=None
+            )
 
             return redirect('hq:dashboard')
     else:
         form = CreateCenterForm()
     return render(request, 'hq/create_center.html', {'form': form})
+
+def add_subcenter(request):
+    if not request.user.groups.filter(name='headquarters').exists():
+        return redirect('no_permission')
+
+    if request.method == 'POST':
+        form = CreateSubcenterForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            subcenter_name = form.cleaned_data['subcenter_name']
+            parent_center = form.cleaned_data['parent_center']
+
+            user = User.objects.create_user(username=username, password=password)
+
+            group = Group.objects.get(name='subcenters')
+            user.groups.add(group)
+
+            Center.objects.create(
+                user=user,
+                name=subcenter_name,
+                is_subcenter=True,
+                parent_center=parent_center
+            )
+
+            return redirect('hq:dashboard')
+    else:
+        form = CreateSubcenterForm()
+    return render(request, 'hq/create_subcenter.html', {'form': form})
 
 def upload(request):
     if request.method == 'POST':
@@ -53,6 +84,8 @@ def upload(request):
 
 def delete_content(request, pk):
     content = get_object_or_404(PublicContent, pk=pk)
+    if content.file and os.path.isfile(content.file.path):
+        os.remove(content.file.path)
     content.delete()
     return redirect('hq:dashboard')
 

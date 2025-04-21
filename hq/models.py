@@ -21,8 +21,15 @@ class PublicContent(models.Model):
 
 class Center(models.Model):
     name = models.CharField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='hq_center')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='centers')
     is_subcenter = models.BooleanField(default=False)
+    parent_center = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='subcenters'
+    )
 
     def __str__(self):
         return self.name

@@ -25,19 +25,24 @@
         <div style="margin-bottom: 30px;">
             <h2>{{ item.title }}</h2>
 
-            {% if item.text %}
-                <p>{{ item.text }}</p>
+            {% if item.text_content %}
+                <p>{{ item.text_content }}</p>
             {% endif %}
-
-            {% if item.image %}
-                <img src="{{ item.image.url }}" alt="Image" style="max-width: 100%; height: auto;">
-            {% endif %}
-
-            {% if item.video %}
-                <video controls style="max-width: 100%;">
-                    <source src="{{ item.video.url }}" type="video/mp4">
+            
+            {% if item.content_type == "image" and item.file %}
+            <img src="{{ item.file.url }}" alt="Image" style="max-width: 20%; height: auto;">
+            
+            {% elif item.content_type == "video" and item.file %}
+                <video controls style="max-width: 100%; height: auto;">
+                    <source src="{{ item.file.url }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+
+            {% elif item.content_type == "file" and item.file %}
+                <a href="{{ item.file.url }}" download>{{ item.file.name }}</a>
+
+            {% else %}
+                <p>No content available.</p>
             {% endif %}
         </div>
     {% empty %}
