@@ -4,6 +4,7 @@ from .forms import PublicContentForm, CreateCenterForm, CreateSubcenterForm
 from django.contrib.auth.models import User, Group
 from .models import PublicContent, Center
 from django.contrib import messages
+import os
 
 @login_required
 def dashboard(request):
@@ -82,6 +83,8 @@ def upload(request):
 
 def delete_content(request, pk):
     content = get_object_or_404(PublicContent, pk=pk)
+    if content.file and os.path.isfile(content.file.path):
+        os.remove(content.file.path)
     content.delete()
     return redirect('hq:dashboard')
 
